@@ -16,7 +16,7 @@ delta_f = 5.0
 plt.axis([0, 1, -10, 10])
 
 axH = plt.axes([0.25, 0.15, 0.65, 0.03], facecolor='red')
-axS = plt.axes([0.25, 0.1, 0.65, 0.03], facecolor='red')
+axS = plt.axes([0.25, 0.10, 0.65, 0.03], facecolor='red')
 axV = plt.axes([0.25, 0.05, 0.65, 0.03], facecolor='red')
 
 
