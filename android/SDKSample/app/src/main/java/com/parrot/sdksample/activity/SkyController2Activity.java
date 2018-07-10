@@ -100,38 +100,10 @@ public class SkyController2Activity extends AppCompatActivity {
     private void initIHM() {
         mVideoView = (H264VideoView) findViewById(R.id.videoView);
 
-        findViewById(R.id.emergencyBt).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mSkyController2Drone.emergency();
-            }
-        });
-
-        mTakeOffLandBt = (Button) findViewById(R.id.takeOffOrLandBt);
-        mTakeOffLandBt.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                switch (mSkyController2Drone.getFlyingState()) {
-                    case ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_LANDED:
-                        mSkyController2Drone.takeOff();
-                        break;
-                    case ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_FLYING:
-                    case ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_HOVERING:
-                        mSkyController2Drone.land();
-                        break;
-                    default:
-                }
-            }
-        });
 
         findViewById(R.id.takePictureBt).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mSkyController2Drone.takePicture();
-            }
-        });
-
-        mDownloadBt = (Button)findViewById(R.id.downloadBt);
-        mDownloadBt.setEnabled(false);
-        mDownloadBt.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
                 mSkyController2Drone.getLastFlightMedias();
 
                 mDownloadProgressDialog = new ProgressDialog(SkyController2Activity.this, R.style.AppCompatAlertDialogStyle);
@@ -147,6 +119,8 @@ public class SkyController2Activity extends AppCompatActivity {
                 mDownloadProgressDialog.show();
             }
         });
+
+
 
         mSkyController2BatteryLabel = (TextView) findViewById(R.id.skyBatteryLabel);
         mDroneBatteryLabel = (TextView) findViewById(R.id.droneBatteryLabel);
@@ -206,15 +180,11 @@ public class SkyController2Activity extends AppCompatActivity {
         public void onPilotingStateChanged(ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state) {
             switch (state) {
                 case ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_LANDED:
-                    mTakeOffLandBt.setText("Take off");
-                    mTakeOffLandBt.setEnabled(true);
-                    mDownloadBt.setEnabled(true);
+
                     break;
                 case ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_FLYING:
                 case ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_HOVERING:
-                    mTakeOffLandBt.setText("Land");
-                    mTakeOffLandBt.setEnabled(true);
-                    mDownloadBt.setEnabled(false);
+
                     break;
                 default:
                     mTakeOffLandBt.setEnabled(false);

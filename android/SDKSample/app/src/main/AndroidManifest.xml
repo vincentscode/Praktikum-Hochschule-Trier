@@ -34,14 +34,17 @@
         </activity>
         <activity
             android:name=".activity.BebopActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="landscape"/>
 
         <activity
             android:name=".activity.SkyControllerActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="landscape"/>
 
         <activity
             android:name=".activity.SkyController2Activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="landscape"/>
 
         <activity
