@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.parrot.arsdk.arcontroller.ARFrame;
+import com.parrot.sdksample.SaveImage;
 
 public class JSVideoView extends ImageView{
 
@@ -46,6 +47,7 @@ public class JSVideoView extends ImageView{
         byte[] data = frame.getByteData();
         synchronized (this) {
             mBmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+            SaveImage saveImage = new SaveImage(mBmp);
         }
 
         mHandler.post(new Runnable() {

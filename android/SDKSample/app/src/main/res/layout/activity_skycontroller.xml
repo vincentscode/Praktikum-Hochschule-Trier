@@ -10,40 +10,17 @@
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Emergency"
-        android:id="@+id/emergencyBt"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:width="150dp"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Take picture"
         android:id="@+id/takePictureBt"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:width="150dp"/>
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/takeOffOrLandBt"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:width="150dp"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Download"
-        android:id="@+id/downloadBt"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:width="150dp"/>
+        android:layout_marginBottom="28dp"
+        android:width="150dp"
+        android:visibility="invisible"
+        android:text="PIC" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -54,6 +31,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:visibility="invisible"
         android:textColor="#ff0000" />
 
     <TextView
@@ -65,6 +43,7 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/skyBatteryText"
         android:layout_toEndOf="@id/skyBatteryText"
+        android:visibility="invisible"
         android:textColor="#ff0000" />
 
     <TextView
@@ -74,6 +53,7 @@
         android:text="Drone battery: "
         android:id="@+id/droneBatteryText"
         android:layout_below="@id/skyBatteryText"
+        android:visibility="invisible"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textColor="#ff0000" />
@@ -87,6 +67,7 @@
         android:layout_below="@id/skyBatteryLabel"
         android:layout_toRightOf="@+id/droneBatteryText"
         android:layout_toEndOf="@+id/droneBatteryText"
+        android:visibility="invisible"
         android:textColor="#ff0000" />
 
     <TextView
