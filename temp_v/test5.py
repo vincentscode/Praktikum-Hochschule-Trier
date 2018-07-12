@@ -43,9 +43,6 @@ y_sorter = 0
 x_sorter = 1
 lines_y = sorted(lines_y, key=itemgetter(y_sorter))
 lines_x = sorted(lines_x, key=itemgetter(x_sorter))
-print(lines_x)
-
-
 
 cv2.imwrite('image.jpg',img)
 cv2.imwrite('lines.jpg',l)
