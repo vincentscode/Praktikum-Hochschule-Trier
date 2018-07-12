@@ -483,26 +483,39 @@ for i in range(len(x_s)-1):
 		mid_points.append((x, y))
 
 class Node:
-	def __init__(self, x, y, n, o, s, w):
+	def __init__(self, x, y, available_next):
 		self.x = x
 		self.y = y
-		self.n = n
-		self.o = o
-		self.s = s
-		self.w = w
+		self.avail = available_next
 
 
+print(len(mid_points))
 for pt in mid_points:
 	pass # check all sides and create Nodes
 
-
+#########################################################
+# TODO ###### TODO #### TODO ### TODO ### TODO ### TODO #
+#########################################################
+# TODO ###### TODO #### TODO ### TODO ### TODO ### TODO #
+#########################################################
+# TODO ###### TODO #### TODO ### TODO ### TODO ### TODO #
+#########################################################
+# TODO ###### TODO #### TODO ### TODO ### TODO ### TODO #
+#########################################################
+# TODO ###### TODO #### TODO ### TODO ### TODO ### TODO #
+#########################################################
 
 # draw
 l = np.zeros(img.shape, dtype=np.uint8)
 
+itr = 0
+font = cv2.FONT_HERSHEY_SIMPLEX
 for pt in mid_points:
+	let = str(chr(itr+65))
+	cv2.putText(l,let,pt, font, 2,(255,255,255),2,cv2.LINE_AA)
 	cv2.circle(l, pt, 4, (200, 200, 0), thickness=-1)
-
+	itr += 1
+"""
 for y in y_s:
 	cv2.circle(l, (200, y), 4, (200, 200, 0), thickness=-1)
 	cv2.line(l, (200, y), (2000, y), (0, 255, 255), 2)
@@ -510,7 +523,7 @@ for y in y_s:
 for x in x_s:
 	cv2.circle(l, (x, 20), 4, (200, 200, 0), thickness=-1)
 	cv2.line(l, (x, 20), (x, 2000), (0, 255, 255), 2)
-
+"""
 for i in final_lines_y:
 	x1, y1, x2, y2 = i
 	cv2.line(l, (x1,y1), (x2,y2), (200, 0, 200), 2)
