@@ -406,18 +406,110 @@ for i in range(len(final_lines_x)):
 final_lines_x = nf_x
 
 # create nav grid - segmentate
-print("X:", final_lines_x)
-print("Y:", final_lines_y)
-
-y_parts = 0
-x_parts = 0
+all_lines = final_lines_x.copy() + final_lines_y.copy() + outer_lines.copy()
 
 x_s = []
 y_s = []
 
+for line in all_lines:
+	x_s.append(line[0])
+	x_s.append(line[2])
+	y_s.append(line[1])
+	y_s.append(line[3])
+
+x_s = sorted(list(set(x_s)))
+y_s = sorted(list(set(y_s)))
+
+lX = -2000
+mX = 200
+groups_lX = []
+for x in x_s:
+	if abs(x-lX) > mX:
+		# cut
+		groups_lX.append([x])
+	else:
+		groups_lX[-1].append(x)
+
+	lX = x
+
+n_xs = []
+for e in groups_lX:
+	if len(e) == 1:
+		# add value
+		n_xs.append(e[0])
+	elif len(e) == 2:
+		# add avg
+		n_xs.append(int((e[0]+e[1])/2))
+	else:
+		# add mean
+		n_xs.append(e[int(len(e)/2)])
+
+x_s = n_xs
+
+
+lY = -2000
+mY = 200
+groups_lY = []
+for y in y_s:
+	if abs(y-lY) > mY:
+		# cut
+		groups_lY.append([y])
+	else:
+		groups_lY[-1].append(y)
+
+	lY = y
+
+n_ys = []
+for e in groups_lY:
+	if len(e) == 1:
+		# add value
+		n_ys.append(e[0])
+	elif len(e) == 2:
+		# add avg
+		n_ys.append(int((e[0]+e[1])/2))
+	else:
+		# add mean
+		n_ys.append(e[int(len(e)/2)])
+
+y_s = n_ys
+
+print(str(len(x_s)-1) + "*"+ str(len(y_s)-1), "Matrix")
+
+mid_points = []
+for i in range(len(x_s)-1):
+	x = int((x_s[i]+x_s[i+1])/2)
+	for j in range(len(y_s)-1):
+		y = int((y_s[j]+y_s[j+1])/2)
+		mid_points.append((x, y))
+
+class Node:
+	def __init__(self, x, y, n, o, s, w):
+		self.x = x
+		self.y = y
+		self.n = n
+		self.o = o
+		self.s = s
+		self.w = w
+
+
+for pt in mid_points:
+	pass # check all sides and create Nodes
+
+
 
 # draw
 l = np.zeros(img.shape, dtype=np.uint8)
+
+for pt in mid_points:
+	cv2.circle(l, pt, 4, (200, 200, 0), thickness=-1)
+
+for y in y_s:
+	cv2.circle(l, (200, y), 4, (200, 200, 0), thickness=-1)
+	cv2.line(l, (200, y), (2000, y), (0, 255, 255), 2)
+
+for x in x_s:
+	cv2.circle(l, (x, 20), 4, (200, 200, 0), thickness=-1)
+	cv2.line(l, (x, 20), (x, 2000), (0, 255, 255), 2)
 
 for i in final_lines_y:
 	x1, y1, x2, y2 = i
@@ -434,7 +526,6 @@ cv2.line(l, line_x_max[:2], line_x_max[2:], (255, 255, 255), 2)
 
 cv2.imwrite('lines.jpg',l)
 cv2.imwrite('edges.jpg',edges)
-
 
 
 
