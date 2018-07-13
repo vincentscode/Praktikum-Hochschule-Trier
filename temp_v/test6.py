@@ -4,22 +4,33 @@ import numpy as np
 from matplotlib import pyplot as plt
 from operator import itemgetter
 import statistics
+import mss
+
+import test7 as astar
 
 # TIME MEASUREMENT
 time0 = time.time()
 
+def getImage():
+	with mss.mss() as sct:
+		monitor = {'top': 150, 'left': 60, 'width': 830, 'height': 350}
+
+		img = np.array(sct.grab(monitor))
+		return img
+
+
+
 # PARAMETERS
-img_path = 'in.jpg'
-img = cv2.imread(img_path)
+img = getImage()
 
-edges_lower_thresh = 130
-edges_upper_thresh = 290
+edges_lower_thresh = 230
+edges_upper_thresh = 120
 
-lines_1 = 1
+lines_1 = 3
 lines_2 = 3.141/300
-lines_3 = 80
+lines_3 = 90
 lines_4 = 120
-lines_5 = 3
+lines_5 = 2
 
 x_max_gap_x = 10
 x_max_gap_y = 110
@@ -70,6 +81,15 @@ def split_dict_at_gaps(input, min_gap_size, key):
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 edges = cv2.Canny(gray, edges_lower_thresh, edges_upper_thresh)
 lines = cv2.HoughLinesP(edges, lines_1, lines_2, lines_3, lines_4, lines_5)
+
+"""TEMP"""
+l_t = np.zeros(img.shape, dtype=np.uint8)
+for l in lines:
+	x1, y1, x2, y2 = l[0]
+
+	cv2.line(l_t, (x1,y1), (x2,y2), (200, 0, 200), 2)
+cv2.imwrite("asd.jpg", l_t)
+cv2.imwrite("jkl.jpg", edges)
 
 # sort lines by direction
 lines_x = []
@@ -332,11 +352,12 @@ t_line_y_min = min(final_lines_y, key=itemgetter(0))
 t_line_y_max = max(final_lines_y, key=itemgetter(2))
 final_lines_y.remove(t_line_y_min)
 final_lines_y.remove(t_line_y_max)
-
-t_line_x_min = min(final_lines_x, key=itemgetter(1))
-t_line_x_max = max(final_lines_x, key=itemgetter(3))
-final_lines_x.remove(t_line_x_min)
-final_lines_x.remove(t_line_x_max)
+try:
+	t_line_x_min = min(final_lines_x, key=itemgetter(1))
+	t_line_x_max = max(final_lines_x, key=itemgetter(3))
+	final_lines_x.remove(t_line_x_min)
+	final_lines_x.remove(t_line_x_max)
+except: pass
 
 line_y_min = (t_line_y_min[0], t_line_x_min[1], t_line_y_min[2], t_line_x_max[3])
 line_y_max = (t_line_y_max[0], t_line_x_min[1], t_line_y_max[2], t_line_x_max[3])
@@ -372,12 +393,14 @@ for line in final_lines_x:
 	y_points.append(line[1])
 
 nf_y = []
-
 for line in final_lines_y:
 	x1, y1, x2, y2 = line
-
-	y1 = min(y_points, key=lambda x:abs(x-y1))
-	y2 = min(y_points, key=lambda x:abs(x-y2))
+	try:
+		y1 = min(y_points, key=lambda x:abs(x-y1))
+	except: pass
+	try:
+		y2 = min(y_points, key=lambda x:abs(x-y2))
+	except: pass
 
 	nf_y.append((x1, y1, x2, y2))
 
@@ -405,6 +428,7 @@ for i in range(len(final_lines_x)):
 
 final_lines_x = nf_x
 
+"""
 # create nav grid - segmentate
 all_lines = final_lines_x.copy() + final_lines_y.copy() + outer_lines.copy()
 
@@ -483,31 +507,30 @@ for i in range(len(x_s)-1):
 		mid_points.append((x, y))
 
 class Node:
-	def __init__(self, x, y, available_next):
+	def __init__(self, x, y, n, o, s, w):
 		self.x = x
 		self.y = y
-		self.avail = available_next
-
-
-print(len(mid_points))
+		self.n = n
+		self.o = o
+		self.s = s
+		self.w = w
+"""
+"""itr = 0
 for pt in mid_points:
-	pass # check all sides and create Nodes
+	row = 
+	col = 
 
-#########################################################
-# TODO ###### TODO #### TODO ### TODO ### TODO ### TODO #
-#########################################################
-# TODO ###### TODO #### TODO ### TODO ### TODO ### TODO #
-#########################################################
-# TODO ###### TODO #### TODO ### TODO ### TODO ### TODO #
-#########################################################
-# TODO ###### TODO #### TODO ### TODO ### TODO ### TODO #
-#########################################################
-# TODO ###### TODO #### TODO ### TODO ### TODO ### TODO #
-#########################################################
+	n_line = (pt[0], pt[1], pt[0], pt[1]+)
+	o_line = 
+	s_line = 
+	w_line = 
+	itr = 0
+	# check all sides and create Nodes
+"""
 
 # draw
 l = np.zeros(img.shape, dtype=np.uint8)
-
+"""
 itr = 0
 font = cv2.FONT_HERSHEY_SIMPLEX
 for pt in mid_points:
@@ -515,6 +538,7 @@ for pt in mid_points:
 	cv2.putText(l,let,pt, font, 2,(255,255,255),2,cv2.LINE_AA)
 	cv2.circle(l, pt, 4, (200, 200, 0), thickness=-1)
 	itr += 1
+"""
 """
 for y in y_s:
 	cv2.circle(l, (200, y), 4, (200, 200, 0), thickness=-1)
@@ -537,10 +561,64 @@ cv2.line(l, line_y_max[:2], line_y_max[2:], (255, 255, 255), 2)
 cv2.line(l, line_x_min[:2], line_x_min[2:], (255, 255, 255), 2)
 cv2.line(l, line_x_max[:2], line_x_max[2:], (255, 255, 255), 2)
 
+all_lines = final_lines_y + final_lines_x + outer_lines
+x_min = min(all_lines, key=itemgetter(0))[0]
+y_min = min(all_lines, key=itemgetter(1))[1]
+try:
+	rx, ry = astar.run(
+		sx = 20, sy = 50.0,
+		gx = 20, gy = 20.0,
+		grid_size = 1.0,
+		robot_size = 10.0,
+		lines = all_lines,
+		anim=False
+	)
+	print(rx, ry)
+	for i in range(len(rx)):
+		x = (int(rx[i])*10)+x_min
+		y = (int(ry[i])*10)+y_min
+		cv2.circle(l, (x, y), 4, (200, 200, 0), thickness=-1)
+except:
+	pass
+
 cv2.imwrite('lines.jpg',l)
 cv2.imwrite('edges.jpg',edges)
 
-
-
 # print timing
 print("Took {} seconds.".format(time.time() - time0))
+
+# connect
+import socket
+from _thread import *
+
+rotation = 0
+forward = 0
+
+# SETTINGS
+HOST = ''
+PORT = 2345
+BUFFER_SIZE = 1024
+
+# SOCKET
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.bind((HOST, PORT))
+sock.listen(2)
+
+def answer():
+	global sock, forward, rotation
+	while True:
+		conn, addr = sock.accept()
+		conn.sendall(bytes("r{}/f{}\n".format(rotation, forward), "utf8"))
+
+start_new_thread(answer, ())
+
+import mss
+import numpy
+
+# loop with recog and control
+while True:
+	time0 = time.time()
+
+
+
+	# print("Took {} seconds.".format(time.time() - time0))
